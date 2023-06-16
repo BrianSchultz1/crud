@@ -32,8 +32,6 @@ class Livro {
     private String editora;
     private int anoPublicacao;
     private String isbn;
-
-    // getters e setters
 }
 
 @Controller
@@ -66,7 +64,7 @@ class LivroController {
     }
 }
 
-// Adicione o conteúdo do index.html aqui
+
 class IndexHtmlContent {
     public static final String CONTENT = """
             <!DOCTYPE html>
