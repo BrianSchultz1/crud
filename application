@@ -1,0 +1,111 @@
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.;
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+
+@SpringBootApplication
+public class CrudApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(CrudApplication.class, args);
+    }
+}
+
+@Controller
+class UserController {
+    private ListUser users = new ArrayList();
+
+    @PostConstruct
+    public void init() {
+        users.add(new User(john, John Doe, john@example.com));
+        users.add(new User(jane, Jane Smith, jane@example.com));
+    }
+
+    @GetMapping()
+    public String index() {
+        return index;
+    }
+
+    @GetMapping(users)
+    public String listUsers(Model model) {
+        model.addAttribute(users, users);
+        return list;
+    }
+
+    @GetMapping(usersadd)
+    public String showAddForm(Model model) {
+        model.addAttribute(user, new User());
+        return add;
+    }
+
+    @PostMapping(usersadd)
+    public String addUser(@ModelAttribute User user) {
+        if (!isLoginUnique(user.getLogin())) {
+            return redirectusersadderror=login;
+        }
+        users.add(user);
+        return redirectusers;
+    }
+
+    @GetMapping(usersedit{login})
+    public String showEditForm(@PathVariable String login, Model model) {
+        User user = getUserByLogin(login);
+        if (user == null) {
+            return redirectuserserror=notfound;
+        }
+        model.addAttribute(user, user);
+        return edit;
+    }
+
+    @PostMapping(usersedit{login})
+    public String editUser(@PathVariable String login, @ModelAttribute User updatedUser) {
+        User user = getUserByLogin(login);
+        if (user == null) {
+            return redirectuserserror=notfound;
+        }
+        if (!login.equals(updatedUser.getLogin()) && !isLoginUnique(updatedUser.getLogin())) {
+            return redirectusersedit + login + error=login;
+        }
+        user.setLogin(updatedUser.getLogin());
+        user.setName(updatedUser.getName());
+        user.setEmail(updatedUser.getEmail());
+        return redirectusers;
+    }
+
+    @GetMapping(usersdelete{login})
+    public String deleteUser(@PathVariable String login) {
+        User user = getUserByLogin(login);
+        if (user != null) {
+            users.remove(user);
+        }
+        return redirectusers;
+    }
+
+    private boolean isLoginUnique(String login) {
+        return users.stream().noneMatch(u - u.getLogin().equals(login));
+    }
+
+    private User getUserByLogin(String login) {
+        return users.stream().filter(u - u.getLogin().equals(login)).findFirst().orElse(null);
+    }
+}
+
+class User {
+    private String login;
+    private String name;
+    private String email;
+
+    public User() {}
+
+    public User(String login, String name, String email) {
+        this.login = login;
+        this.name = name;
+        this.email = email;
+    }
+
+     getters and setters
+}
